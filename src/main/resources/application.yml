@@ -1,0 +1,13 @@
+#N26 Default Properties
+n26:
+  statistics:
+    producer:
+      startUpCheckIntervalSeconds: 1
+      startUpMaxRetries: 20
+      shutdownMaxWaitTimeSeconds: 10
+      incrementAmount: 2.20
+      messageDelaySeconds: 60
+      outOfOrderThreshold: 10
+      outOfOrderMessageDelayAdjustment: 10
+      sleepIntervalSeconds: 30
+...
