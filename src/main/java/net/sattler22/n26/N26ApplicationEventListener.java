@@ -1,4 +1,4 @@
-package com.sattler.n26;
+package net.sattler22.n26;
 
 import java.text.NumberFormat;
 import java.util.concurrent.ExecutionException;
@@ -15,8 +15,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import com.sattler.n26.producer.N26StatisticsProducer;
-import com.sattler.n26.producer.N26StatisticsProducerProperties;
+import net.sattler22.n26.producer.N26StatisticsProducer;
+import net.sattler22.n26.producer.N26StatisticsProducerProperties;
 
 /**
  * N26 Statistics Application Event Listener

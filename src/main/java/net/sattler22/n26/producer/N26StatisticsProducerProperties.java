@@ -1,4 +1,4 @@
-package com.sattler.n26.producer;
+package net.sattler22.n26.producer;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

@@ -1,4 +1,4 @@
-package com.sattler.n26;
+package net.sattler22.n26;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -80,7 +80,7 @@ import org.springframework.context.annotation.ComponentScan;
  * </ul>
  */
 @SpringBootApplication
-@ComponentScan({ "com.sattler.n26" })
+@ComponentScan({ "net.sattler22.n26" })
 public class N26Application {
     
     public static void main(String[] args) {

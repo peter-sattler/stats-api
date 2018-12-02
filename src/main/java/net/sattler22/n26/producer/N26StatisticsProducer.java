@@ -1,4 +1,4 @@
-package com.sattler.n26.producer;
+package net.sattler22.n26.producer;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -8,8 +8,8 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sattler.n26.service.N26StatisticsService;
-import com.sattler.n26.service.N26StatisticsService.N26StatisticsTransaction;
+import net.sattler22.n26.service.N26StatisticsService;
+import net.sattler22.n26.service.N26StatisticsService.N26StatisticsTransaction;
 
 /**
  * N26 Statistics Producer

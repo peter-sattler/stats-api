@@ -1,4 +1,4 @@
-package com.sattler.n26.util;
+package net.sattler22.n26.util;
 
 import java.util.Collections;
 import java.util.Map;

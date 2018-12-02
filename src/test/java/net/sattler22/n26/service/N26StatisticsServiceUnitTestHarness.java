@@ -1,4 +1,4 @@
-package com.sattler.n26.service;
+package net.sattler22.n26.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -20,8 +20,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StopWatch;
 
-import com.sattler.n26.service.N26StatisticsService.N26StatisticsQueryResult;
-import com.sattler.n26.service.N26StatisticsService.N26StatisticsTransaction;
+import net.sattler22.n26.service.N26StatisticsService.N26StatisticsQueryResult;
+import net.sattler22.n26.service.N26StatisticsService.N26StatisticsTransaction;
 
 /**
  * N26 Statistics Service Unit Test Harness

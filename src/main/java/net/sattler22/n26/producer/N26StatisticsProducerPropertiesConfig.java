@@ -1,4 +1,4 @@
-package com.sattler.n26.producer;
+package net.sattler22.n26.producer;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

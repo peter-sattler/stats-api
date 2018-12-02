@@ -1,4 +1,4 @@
-package com.sattler.n26.service;
+package net.sattler22.n26.service;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

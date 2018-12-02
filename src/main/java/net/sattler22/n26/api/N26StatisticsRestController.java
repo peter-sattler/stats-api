@@ -1,4 +1,4 @@
-package com.sattler.n26.api;
+package net.sattler22.n26.api;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.sattler.n26.service.N26StatisticsService;
-import com.sattler.n26.service.N26StatisticsService.N26StatisticsQueryResult;
-import com.sattler.n26.service.N26StatisticsService.N26StatisticsTransaction;
-import com.sattler.n26.util.JsonError;
+import net.sattler22.n26.service.N26StatisticsService;
+import net.sattler22.n26.service.N26StatisticsService.N26StatisticsQueryResult;
+import net.sattler22.n26.service.N26StatisticsService.N26StatisticsTransaction;
+import net.sattler22.n26.util.JsonError;
 
 /**
  * N26 Statistics API REST Controller

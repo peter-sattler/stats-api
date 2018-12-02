@@ -1,4 +1,4 @@
-package com.sattler.n26.producer;
+package net.sattler22.n26.producer;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -16,10 +16,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.sattler.n26.service.N26StatisticsService;
-import com.sattler.n26.service.N26StatisticsService.N26StatisticsQueryResult;
-import com.sattler.n26.service.N26StatisticsServiceDelayQueueImpl;
-import com.sattler.n26.service.N26StatisticsServiceUnitTestHarness;
+import net.sattler22.n26.service.N26StatisticsService;
+import net.sattler22.n26.service.N26StatisticsService.N26StatisticsQueryResult;
+import net.sattler22.n26.service.N26StatisticsServiceDelayQueueImpl;
+import net.sattler22.n26.service.N26StatisticsServiceUnitTestHarness;
 
 /**
  * N26 Statistics Producer Unit Test Harness
