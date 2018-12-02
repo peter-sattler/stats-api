@@ -10,8 +10,6 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.concurrent.DelayQueue;
 
-import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.apache.commons.lang3.time.StopWatch;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.StopWatch;
 
 import com.sattler.n26.service.N26StatisticsService.N26StatisticsQueryResult;
 import com.sattler.n26.service.N26StatisticsService.N26StatisticsTransaction;
@@ -79,7 +78,7 @@ public class N26StatisticsServiceUnitTestHarness {
             LOGGER.info("Added #{}: {}", NumberFormat.getInstance().format(i + 1), transaction);
         }
         stopWatch.stop();
-        LOGGER.info("N26 data load complete, elapsed time: {}", DurationFormatUtils.formatDurationHMS(stopWatch.getTime()));
+        LOGGER.info("N26 data load complete, elapsed time: {}", stopWatch.shortSummary());
     }
 
     public static void checkResult(long expectedCount, BigDecimal expectedSum, BigDecimal expectedAverage, BigDecimal expectedMin, BigDecimal expectedMax, N26StatisticsQueryResult queryResult) {

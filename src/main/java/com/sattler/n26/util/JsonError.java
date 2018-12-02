@@ -3,8 +3,6 @@ package com.sattler.n26.util;
 import java.util.Collections;
 import java.util.Map;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
@@ -40,6 +38,6 @@ public final class JsonError {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return String.format("%s [message=%s]", getClass().getSimpleName(), message);
     }
 }

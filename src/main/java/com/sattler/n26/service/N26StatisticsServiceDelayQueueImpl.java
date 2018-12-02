@@ -7,12 +7,9 @@ import java.util.concurrent.DelayQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BinaryOperator;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StopWatch;
 
 /**
  * N26 Statistics Service Delay Queue Implementation
@@ -62,7 +59,7 @@ public final class N26StatisticsServiceDelayQueueImpl implements N26StatisticsSe
         stopWatch.start();
         final int nbrTransactions = queue.drainTo(snapshot);
         stopWatch.stop();
-        LOGGER.info("DRAIN-TO elapsed time: {}", DurationFormatUtils.formatDurationHMS(stopWatch.getTime()));
+        LOGGER.info("DRAIN-TO elapsed time: {}", stopWatch.shortSummary());
 
         if (nbrTransactions == 0) {
             return new N26StatisticsQueryResult(BigDecimal.ZERO, nbrTransactions, BigDecimal.ZERO, BigDecimal.ZERO);
@@ -89,7 +86,7 @@ public final class N26StatisticsServiceDelayQueueImpl implements N26StatisticsSe
         final BigDecimal min = snapshot.parallelStream().map(entry -> entry.getAmount()).min(BigDecimal::compareTo).orElse(BigDecimal.ZERO);
         final BigDecimal max = snapshot.parallelStream().map(entry -> entry.getAmount()).max(BigDecimal::compareTo).orElse(BigDecimal.ZERO);
         stopWatch.stop();
-        LOGGER.info("Streams elapsed time: {}", DurationFormatUtils.formatDurationHMS(stopWatch.getTime()));
+        LOGGER.info("Streams elapsed time: {}", stopWatch.shortSummary());
         return new N26StatisticsQueryResult(sum, count, min, max);
     }
 
@@ -114,7 +111,7 @@ public final class N26StatisticsServiceDelayQueueImpl implements N26StatisticsSe
             }
         }
         stopWatch.stop();
-        LOGGER.info("ArrayList.get() elapsed time: {}", DurationFormatUtils.formatDurationHMS(stopWatch.getTime()));
+        LOGGER.info("ArrayList.get() elapsed time: {}", stopWatch.shortSummary());
         return new N26StatisticsQueryResult(sum, count, min, max);
     }
 
@@ -125,6 +122,6 @@ public final class N26StatisticsServiceDelayQueueImpl implements N26StatisticsSe
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return String.format("%s [queue=%s, maximumDelaySeconds=%s]", getClass().getSimpleName(), queue, maximumDelaySeconds);
     }
 }

@@ -5,12 +5,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +27,9 @@ import com.sattler.n26.producer.N26StatisticsProducerProperties;
 public class N26ApplicationEventListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(N26ApplicationEventListener.class);
-    private static final ThreadFactory EXECUTOR_THREAD_FACTORY = new BasicThreadFactory.Builder().namingPattern("N26StatisticsProducer").priority(Thread.MAX_PRIORITY).daemon(false).build();
     private final N26StatisticsProducerProperties statsProducerProps;
     private final N26StatisticsProducer statsProducer;
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor(EXECUTOR_THREAD_FACTORY);
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private Future<Integer> producerFuture;                   // Only a single thread used
 
     @Autowired
@@ -84,6 +79,6 @@ public class N26ApplicationEventListener {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return String.format("%s [statsProducerProps=%s, statsProducer=%s, executorService=%s, producerFuture=%s]", getClass().getSimpleName(), statsProducerProps, statsProducer, executorService, producerFuture);
     }
 }

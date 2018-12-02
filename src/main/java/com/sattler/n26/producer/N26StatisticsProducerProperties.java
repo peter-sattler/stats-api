@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Duration;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 /**
  * N26 Statistics Producer Properties
  * 
@@ -90,6 +87,7 @@ public final class N26StatisticsProducerProperties implements Serializable {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return String.format("%s [startUpCheckIntervalSeconds=%s, startUpMaxRetries=%s, shutdownMaxWaitTimeSeconds=%s, incrementAmount=%s, messageDelay=%s, outOfOrderThreshold=%s, outOfOrderMessageDelayAdjustment=%s, sleepIntervalSeconds=%s]",
+                getClass().getSimpleName(), startUpCheckIntervalSeconds, startUpMaxRetries, shutdownMaxWaitTimeSeconds, incrementAmount, messageDelay, outOfOrderThreshold, outOfOrderMessageDelayAdjustment, sleepIntervalSeconds);
     }
 }

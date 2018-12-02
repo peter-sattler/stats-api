@@ -5,8 +5,6 @@ import java.time.Duration;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -140,6 +138,7 @@ public final class N26StatisticsProducer implements Callable<Integer> {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return String.format("%s [incrementAmount=%s, messageDelay=%s, outOfOrderThreshold=%s, outOfOrderMessageDelayAdjustment=%s, sleepIntervalSeconds=%s, statsService=%s]", 
+                getClass().getSimpleName(), incrementAmount, messageDelay, outOfOrderThreshold, outOfOrderMessageDelayAdjustment, sleepIntervalSeconds, statsService);
     }
 }

@@ -5,15 +5,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.lang3.builder.CompareToBuilder;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * N26 Statistics Service
@@ -83,7 +78,8 @@ public interface N26StatisticsService {
             // Keep sorted by availability time:
             // NOTE: HEAD is first item to become available for consumption and the TAIL has the longest time to wait to be consumed
             final N26StatisticsTransaction that = (N26StatisticsTransaction) other;
-            return new CompareToBuilder().append(this.availabileTime, that.availabileTime).toComparison();
+            return this.availabileTime.compareTo(that.availabileTime);
+            
         }
 
         @Override
@@ -94,24 +90,24 @@ public interface N26StatisticsService {
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder().append(this.id).toHashCode();
+            return Objects.hash(this.id);
         }
 
         @Override
         public boolean equals(Object other) {
-            if (this == other) {
+            if (this == other)
                 return true;
-            }
-            if (this.getClass() != other.getClass()) {
+            if (other == null)
                 return false;
-            }
+            if (this.getClass() != other.getClass())
+                return false;
             final N26StatisticsTransaction that = (N26StatisticsTransaction) other;
-            return new EqualsBuilder().append(this.id, that.id).isEquals();
+            return Objects.equals(this.id, that.id);
         }
 
         @Override
         public String toString() {
-            return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+            return String.format("%s [id=%s, amount=%s, availabileTime=%s]", getClass().getSimpleName(), id, amount, availabileTime);
         }
     }
 
@@ -176,24 +172,24 @@ public interface N26StatisticsService {
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder().append(this.timestamp).toHashCode();
+            return Objects.hash(this.timestamp);
         }
 
         @Override
         public boolean equals(Object other) {
-            if (this == other) {
+            if (this == other)
                 return true;
-            }
-            if (this.getClass() != other.getClass()) {
+            if (other == null)
                 return false;
-            }
+            if (this.getClass() != other.getClass())
+                return false;
             final N26StatisticsQueryResult that = (N26StatisticsQueryResult) other;
-            return new EqualsBuilder().append(this.timestamp, that.timestamp).isEquals();
+            return Objects.equals(this.timestamp, that.timestamp);
         }
 
         @Override
         public String toString() {
-            return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+            return String.format("%s [sum=%s, count=%s, min=%s, max=%s, timestamp=%s]", getClass().getSimpleName(), sum, count, min, max, timestamp);
         }
     }
 }
