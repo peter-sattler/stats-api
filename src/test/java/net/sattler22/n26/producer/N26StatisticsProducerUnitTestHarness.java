@@ -34,7 +34,7 @@ public class N26StatisticsProducerUnitTestHarness {
     private static final Logger LOGGER = LoggerFactory.getLogger(N26StatisticsProducerUnitTestHarness.class);
 
     @Autowired
-    private N26StatisticsService statsService;;
+    private N26StatisticsService statsService;
 
     @Autowired
     private N26StatisticsProducerProperties statsProducerProps;
