@@ -1,6 +1,6 @@
-#N26 Default Properties
-n26:
-  statistics:
+#Statistics API Default Properties
+stats:
+  api:
     producer:
       startUpCheckIntervalSeconds: 1
       startUpMaxRetries: 20

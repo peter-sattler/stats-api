@@ -1,6 +1,6 @@
-#N26 Test Properties
-n26:
-  statistics:
+#Statistics API Test Properties
+stats:
+  api:
     producer:
       startUpCheckIntervalSeconds: 1
       startUpMaxRetries: 5

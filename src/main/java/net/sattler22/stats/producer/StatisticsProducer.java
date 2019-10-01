@@ -1,44 +1,47 @@
-package net.sattler22.n26.producer;
+package net.sattler22.stats.producer;
+
+import static java.math.BigDecimal.ZERO;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.sattler22.n26.service.N26StatisticsService;
-import net.sattler22.n26.service.N26StatisticsService.N26StatisticsTransaction;
+import net.jcip.annotations.Immutable;
+import net.sattler22.stats.service.StatisticsService;
+import net.sattler22.stats.service.StatisticsService.StatisticsTransaction;
 
 /**
- * N26 Statistics Producer
- * 
+ * Statistics Producer
+ *
  * @author Pete Sattler
- * @implSpec This class is immutable and thread-safe
  */
-public final class N26StatisticsProducer implements Callable<Integer> {
+@Immutable
+public final class StatisticsProducer implements Callable<Integer> {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(N26StatisticsProducer.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(StatisticsProducer.class);
     private final BigDecimal incrementAmount;
     private final Duration messageDelay;
     private final int outOfOrderThreshold;
     private final Duration outOfOrderMessageDelayAdjustment;
     private final long sleepIntervalSeconds;
-    private final N26StatisticsService statsService;
+    private final StatisticsService statsService;
     private final Object lockObject = new Object();
 
     /**
-     * Constructs a new N26 statistics producer (including out of order transactions)
-     * 
+     * Constructs a new statistics producer (including out of order transactions)
+     *
      * @param incrementAmount The transaction increment amount
      * @param messageDelay The delay amount before which the transaction is available for consumption
      * @param outOfOrderThreshold The threshold for generating an out of order transaction
      * @param outOfOrderMessageDelayAdjustment The out of order message delay duration adjustment
      * @param sleepIntervalSeconds The number of seconds to sleep between each generated transaction
-     * @param statsService The N26 statistics service
+     * @param statsService The statistics service
      */
-    public N26StatisticsProducer(BigDecimal incrementAmount, Duration messageDelay, int outOfOrderThreshold, Duration outOfOrderMessageDelayAdjustment, long sleepIntervalSeconds, N26StatisticsService statsService) {
+    public StatisticsProducer(BigDecimal incrementAmount, Duration messageDelay, int outOfOrderThreshold, Duration outOfOrderMessageDelayAdjustment, long sleepIntervalSeconds, StatisticsService statsService) {
         super();
         this.incrementAmount = incrementAmount;
         this.messageDelay = messageDelay;
@@ -49,20 +52,20 @@ public final class N26StatisticsProducer implements Callable<Integer> {
     }
 
     /**
-     * Constructs a new N26 statistics producer (no out of order transactions)
-     * 
+     * Constructs a new statistics producer (no out of order transactions)
+     *
      * @param incrementAmount The transaction increment amount
      * @param messageDelay The delay amount before which the transaction is available for consumption
      * @param sleepIntervalSeconds The number of seconds to sleep between each generated transaction
-     * @param statsService The N26 statistics service
+     * @param statsService The statistics service
      */
-    public N26StatisticsProducer(BigDecimal incrementAmount, Duration messageDelay, long sleepIntervalSeconds, N26StatisticsService statsService) {
+    public StatisticsProducer(BigDecimal incrementAmount, Duration messageDelay, long sleepIntervalSeconds, StatisticsService statsService) {
         this(incrementAmount, messageDelay, 0, Duration.ZERO, sleepIntervalSeconds, statsService);
     }
 
     /**
-     * Produces and adds a single N26 transaction to the statistics service
-     * 
+     * Produces and adds a single transaction to the statistics service
+     *
      * @startingAmount The transaction starting amount
      */
     public void produce(BigDecimal startingAmount) {
@@ -70,20 +73,20 @@ public final class N26StatisticsProducer implements Callable<Integer> {
     }
 
     /**
-     * Produces and adds a multiple N26 transactions to the statistics service
-     * 
+     * Produces and adds a multiple transactions to the statistics service
+     *
      * @return The number of transactions produced
      */
     @Override
     public Integer call() throws Exception {
         int counter = 0;
-        BigDecimal amount = BigDecimal.ZERO;
+        BigDecimal amount = ZERO;
         while (!Thread.currentThread().isInterrupted()) {
             produce(++counter, amount);
             try {
-                TimeUnit.SECONDS.sleep(sleepIntervalSeconds);
+                SECONDS.sleep(sleepIntervalSeconds);
             } catch (InterruptedException e) {
-                // Get out of loop:
+                //Get out of loop:
                 Thread.currentThread().interrupt();
             }
         }
@@ -93,7 +96,7 @@ public final class N26StatisticsProducer implements Callable<Integer> {
     private void produce(int count, BigDecimal startingAmount) {
         final BigDecimal amount;
         final Duration delay;
-        final N26StatisticsTransaction transaction;
+        final StatisticsTransaction transaction;
         synchronized (lockObject) {
             amount = startingAmount.add(incrementAmount);
             if (outOfOrderThreshold > 0 && count % outOfOrderThreshold == 0) {
@@ -101,7 +104,7 @@ public final class N26StatisticsProducer implements Callable<Integer> {
             } else {
                 delay = messageDelay;
             }
-            transaction = new N26StatisticsTransaction(amount, delay);
+            transaction = new StatisticsTransaction(amount, delay);
             statsService.add(transaction);
         }
         LOGGER.info("Added: [{}]", transaction);
@@ -129,7 +132,7 @@ public final class N26StatisticsProducer implements Callable<Integer> {
 
     /**
      * Started check
-     * 
+     *
      * @return True if started and producing transactions. Otherwise, returns false.
      */
     public boolean hasStarted() {
@@ -138,7 +141,7 @@ public final class N26StatisticsProducer implements Callable<Integer> {
 
     @Override
     public String toString() {
-        return String.format("%s [incrementAmount=%s, messageDelay=%s, outOfOrderThreshold=%s, outOfOrderMessageDelayAdjustment=%s, sleepIntervalSeconds=%s, statsService=%s]", 
-                getClass().getSimpleName(), incrementAmount, messageDelay, outOfOrderThreshold, outOfOrderMessageDelayAdjustment, sleepIntervalSeconds, statsService);
+        return String.format("%s [incrementAmount=%s, messageDelay=%s, outOfOrderThreshold=%s, outOfOrderMessageDelayAdjustment=%s, sleepIntervalSeconds=%s, statsService=%s]",
+                             getClass().getSimpleName(), incrementAmount, messageDelay, outOfOrderThreshold, outOfOrderMessageDelayAdjustment, sleepIntervalSeconds, statsService);
     }
 }

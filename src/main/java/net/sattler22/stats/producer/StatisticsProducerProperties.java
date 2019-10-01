@@ -1,15 +1,15 @@
-package net.sattler22.n26.producer;
+package net.sattler22.stats.producer;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Duration;
 
 /**
- * N26 Statistics Producer Properties
- * 
+ * Statistics Producer Properties
+ *
  * @author Pete Sattler
  */
-public final class N26StatisticsProducerProperties implements Serializable {
+public final class StatisticsProducerProperties implements Serializable {
 
     private static final long serialVersionUID = 2921473505035494009L;
     private long startUpCheckIntervalSeconds;
