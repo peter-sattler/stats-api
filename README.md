@@ -1,17 +1,30 @@
+# Spring Boot Real-time Statistics REST API
 
-# Restful Statistics API
+I first worked on this simple REST API back in July 2018. It was one of the first stand-alone projects that I uploaded to GitHub. I 
+recently updated it to Java 17 and cleaned-up some of the underlying implementation details.
 
-_REST Base URI:_ http://localhost:8080/stats-api
+## Getting Started
 
-The main use case for the API is to calculate real-time statistics from the last 60 seconds. There will be two APIs, one 
-of them is called every time a transaction is made. It is also the sole input of this REST API. The other one returns 
-the statistic based on the transactions of the last 60 seconds.
+These instructions will get you a copy of this project up and running on your local machine. Please make sure your 
+__JAVA_HOME__ environment variable is set to a valid JDK installation.
 
- ## Specs
+`git clone https://github.com/peter-sattler/stats-api`  
+`cd stats-api`  
+`./mvnw spring-boot:run`
+
+You can then point your browser to the [Swagger UI](http://localhost:8080/swagger-ui/) to interact with the API:
+
+<img src="/images/stats-api-swagger-ui.png" alt="Swagger UI Image">
+
+## Specifications
  
- ### POST /transactions
+The main use case for the API is to calculate real-time statistics for the last 60 seconds. There will be two end-points, one 
+of them is called every time a transaction is made. It is also the sole input of this REST API. The other one collects 
+the statistics based on the transactions in the last 60 seconds.
  
- * Every time a new transaction happened, this end-point will be called.
+### POST /transactions
+ 
+ * Every time a new transaction occurs, this end-point will be called:
 
  ```
  Body:
@@ -23,9 +36,9 @@ the statistic based on the transactions of the last 60 seconds.
 
  Where:
  
- * amount - is a double specifying the transaction amount
- * timestamp - is a long specifying the transaction time in epoch in milliseconds in UTC time zone (this is not the 
- current timestamp)
+ * _amount_ - is a double specifying the transaction amount
+ * _timestamp_ - is a long specifying the transaction time in milliseconds from the epoch (UTC time zone). It is not the current
+               timestamp.
 
  Returns an empty body with either:
  
@@ -35,10 +48,11 @@ the statistic based on the transactions of the last 60 seconds.
  ### GET /statistics
  
  This is the main end-point of this task, this end-point have to execute in constant time and memory (O(1)). It returns 
- the statistic based on the transactions which happened in the last 60 seconds.
+ the following statistics based on the transactions which happened in the last 60 seconds.
+
+Returns:
 
 ```
-Returns:
 {
     "sum": 1000,
     "avg": 100,
@@ -50,13 +64,13 @@ Returns:
 
 Where:
 
-* sum is a double specifying the total sum of transaction value in the last 60 seconds
-* avg is a double specifying the average amount of transaction value in the last 60 seconds
-* max is a double specifying single highest transaction value in the last 60 seconds
-* min is a double specifying single lowest transaction value in the last 60 seconds
-* count is a long specifying the total number of transactions happened in the last 60 seconds
+* _sum_ is a double specifying the total sum of transaction value in the last 60 seconds
+* _avg_ is a double specifying the average amount of transaction value in the last 60 seconds
+* _max_ is a double specifying single highest transaction value in the last 60 seconds
+* _min_ is a double specifying single lowest transaction value in the last 60 seconds
+* _count_ is a long specifying the total number of transactions happened in the last 60 seconds
 
-### Requirements:
+### Other Considerations:
 
 For the REST API, the biggest and maybe hardest requirement is to make the __GET /statistics__ execute in constant time 
 and space. The best solution would be O(1). It is highly recommended to tackle the O(1) requirement as the last thing 
@@ -65,7 +79,7 @@ to do.
 Other requirements, which are obvious, but also listed here explicitly:
 
 * The API has to be thread-safe with concurrent requests.  
-* The API has to function properly, with proper result.  
+* The API has to function properly, with proper results.  
 * The project should be buildable, and tests should also complete successfully.  
 * The API should be able to deal with time discrepancy, which means, at any point of time, we could receive a transaction which have a timestamp of the past.  
 * Make sure to send the case in memory solution without database (including in-memory database).  
@@ -73,5 +87,5 @@ Other requirements, which are obvious, but also listed here explicitly:
 
 
 Pete Sattler  
-July 2018  
+March 2022  
 _peter@sattler22.net_
