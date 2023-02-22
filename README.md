@@ -8,9 +8,18 @@ recently updated it to Java 17 and cleaned-up some of the underlying implementat
 These instructions will get you a copy of this project up and running on your local machine. Please make sure your 
 __JAVA_HOME__ environment variable is set to a valid JDK installation.
 
-`git clone https://github.com/peter-sattler/stats-api`  
-`cd stats-api`  
-`./mvnw spring-boot:run`
+1. Clone this Git repository:
+```text
+git clone https://github.com/peter-sattler/stats-api
+```
+2. Switch to the application directory:
+```text
+cd stats-api
+```
+3. Run the program:
+```text
+./mvnw spring-boot:run
+```
 
 You can then point your browser to the [Swagger UI](http://localhost:8080/swagger-ui/) to interact with the API:
 
