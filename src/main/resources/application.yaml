@@ -6,21 +6,27 @@ spring:
             matching-strategy: ANT_PATH_MATCHER
     profiles:
         active: local
+server:
+    port: 8080
+    servlet:
+        context-path: /
 logging:
     level:
         ROOT: INFO
-server:
-    servlet:
-        context-path: /
 stats-api:
     service:
-        expiry-interval-secs: 60
-        expiry-clean-up-interval-secs: 90
-swagger-endpoint:
-    title: Spring Boot Real-time Statistics REST API
-    description: Collects real-time statistics for transactions that took place in the last ${stats-api.service.expiry-interval-secs} seconds
-    license: Mozilla Public License 2.0
-    licenseUrl: http://mozilla.org/MPL/2.0
-    version: "@project.version@"
-    host: localhost:8080
+        expiry-interval: 60s
+        expiry-clean-up-interval: 90s
+springdoc:
+    swagger-ui:
+        api:
+            group-name: Real-time Statistics API
+            controller-package: net.sattler22.stats.controller
+        info:
+            title: Spring Boot Real-time Statistics REST API
+            description: Collects real-time statistics for transactions that took place in the last ${stats-api.service.expiry-interval-secs} seconds
+            license: Mozilla Public License 2.0
+            licenseUrl: https://mozilla.org/MPL/2.0
+            version: "@project.version@"
+        operations-sorter: alpha
 ...

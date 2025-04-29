@@ -1,23 +1,20 @@
 package net.sattler22.stats.service;
 
-import static java.math.BigDecimal.ONE;
-import static java.math.BigDecimal.TEN;
-import static java.math.BigDecimal.ZERO;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Arrays;
-
+import net.sattler22.stats.exception.ExpirationException;
+import net.sattler22.stats.service.StatisticsService.StatisticsQueryResult;
+import net.sattler22.stats.service.StatisticsService.StatisticsTransaction;
+import net.sattler22.stats.util.TestUtils;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import net.sattler22.stats.service.StatisticsService.StatisticsQueryResult;
-import net.sattler22.stats.service.StatisticsService.StatisticsTransaction;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.Duration;
+import java.util.Arrays;
+
+import static java.math.BigDecimal.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Real-Time Statistics Service Unit Test Harness
@@ -25,18 +22,19 @@ import net.sattler22.stats.service.StatisticsService.StatisticsTransaction;
  * @author Pete Sattler
  * @version July 2018
  * @version March 2022
+ * @version May 2025
  */
 final class StatisticsServiceUnitTest {
 
     private static final BigDecimal AMOUNT = BigDecimal.TEN;
     private static final int CALC_SCALE = 9;
     private static final RoundingMode CALC_ROUNDING_MODE= RoundingMode.HALF_UP;
-    private static final int EXPIRY_INTERVAL_SECS = 7;
+    private static final Duration EXPIRY_INTERVAL = Duration.ofSeconds(5);
     private StatisticsService statsService;
 
     @BeforeEach
     void init() {
-        statsService = new StatisticsServiceImpl(EXPIRY_INTERVAL_SECS);
+        statsService = new StatisticsServiceImpl(EXPIRY_INTERVAL);
     }
 
     @Test
@@ -47,18 +45,14 @@ final class StatisticsServiceUnitTest {
 
     @Test
     void testAddTransactionFailsWhenTransactionIsNull() {
-        assertThrows(NullPointerException.class, () -> {
-            statsService.add(null);
-        });
+        assertThrows(NullPointerException.class, () -> statsService.add(null));
     }
 
     @Test
     void testAddTransactionFailsWhenTransactionIsExpired() {
-        final var expiredTimeStamp = System.currentTimeMillis() - (EXPIRY_INTERVAL_SECS * 1_000L) - 1L;
-        final var expiredTransaction = new StatisticsTransaction(AMOUNT, expiredTimeStamp);
-        assertThrows(IllegalArgumentException.class, () -> {
-            statsService.add(expiredTransaction);
-        });
+        final long expiredTimeStamp = TestUtils.epoch() - EXPIRY_INTERVAL.toSeconds() - 1L;
+        final StatisticsTransaction expiredTransaction = new StatisticsTransaction(AMOUNT, expiredTimeStamp);
+        assertThrows(ExpirationException.class, () -> statsService.add(expiredTransaction));
     }
 
     @Test
@@ -80,47 +74,44 @@ final class StatisticsServiceUnitTest {
 
     @Test
     void testCollectSuccessWithNoTransactions() {
-        final var queryResult = statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE);
+        final StatisticsService.StatisticsQueryResult queryResult = statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE);
         assertSuccessQueryResults(ZERO, ZERO, ZERO, ZERO, 0L, queryResult);
     }
 
     @Test
     void testCollectSuccessWithSingleTransaction() {
         addTransactionImpl(AMOUNT, 1);
-        final var queryResult = statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE);
+        final StatisticsService.StatisticsQueryResult queryResult = statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE);
         assertSuccessQueryResults(TEN, TEN, TEN, TEN, 1L, queryResult);
     }
 
     @Test
     void testCollectSuccessWithTenTransactions() {
         final String[] transactionAmounts = { "1.9", "0", "3", "4", "5", "6", "7", "8", "9", "10" };
-        final var expectedSum = new BigDecimal("53.90");
-        final var expectedAverage = new BigDecimal("5.39");
-        final var expectedMax = TEN;
-        final var expectedMin = ZERO;
-        final var expectedCount = 10L;
+        final BigDecimal expectedSum = new BigDecimal("53.90");
+        final BigDecimal expectedAverage = new BigDecimal("5.39");
         Arrays.stream(transactionAmounts)
-              .map(amount -> new StatisticsTransaction(new BigDecimal(amount), System.currentTimeMillis()))
+              .map(amount -> new StatisticsTransaction(new BigDecimal(amount), TestUtils.epoch()))
               .forEach(transaction -> statsService.add(transaction));
-        final var queryResult = statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE);
-        assertSuccessQueryResults(expectedSum, expectedAverage, expectedMax, expectedMin, expectedCount, queryResult);
+        final StatisticsService.StatisticsQueryResult queryResult = statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE);
+        assertSuccessQueryResults(expectedSum, expectedAverage, TEN, ZERO, transactionAmounts.length, queryResult);
     }
 
     @Test
     void testCollectSuccessWithOneThousandTransactions() {
-        final var startingAmount = ONE;
-        final var incrementAmount = new BigDecimal(".10");
-        final var expectedSum = new BigDecimal(51050);
-        final var expectedAverage = new BigDecimal("51.05");
-        final var expectedMax = new BigDecimal(101);
-        final var expectedMin = startingAmount.add(incrementAmount);
-        final var expectedCount = 1_000L;
-        var amount = startingAmount;
-        for (var i = 0; i < expectedCount; i++) {
+        final BigDecimal startingAmount = ONE;
+        final BigDecimal incrementAmount = new BigDecimal(".10");
+        final BigDecimal expectedSum = new BigDecimal(51050);
+        final BigDecimal expectedAverage = new BigDecimal("51.05");
+        final BigDecimal expectedMax = new BigDecimal(101);
+        final BigDecimal expectedMin = startingAmount.add(incrementAmount);
+        final long expectedCount = 1_000L;
+        BigDecimal amount = startingAmount;
+        for (int i = 0; i < expectedCount; i++) {
             amount = amount.add(incrementAmount);
-            statsService.add(new StatisticsTransaction(amount, System.currentTimeMillis()));
+            statsService.add(new StatisticsTransaction(amount, TestUtils.epoch()));
         }
-        final var queryResult = statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE);
+        final StatisticsService.StatisticsQueryResult queryResult = statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE);
         assertSuccessQueryResults(expectedSum, expectedAverage, expectedMax, expectedMin, expectedCount, queryResult);
     }
 
@@ -128,9 +119,7 @@ final class StatisticsServiceUnitTest {
     void testCollectFailsWhenAverageIsNonTerminatingAndRoundingModeIsUnnecessary() {
         addTransactionImpl(new BigDecimal(".25"), 2);  //NOTE: precision=2, scale=2
         addTransactionImpl(new BigDecimal(".50"), 1);
-        assertThrows(ArithmeticException.class, () -> {
-            statsService.collect(CALC_SCALE, RoundingMode.UNNECESSARY);
-        });
+        assertThrows(ArithmeticException.class, () -> statsService.collect(CALC_SCALE, RoundingMode.UNNECESSARY));
     }
 
     private static void assertSuccessQueryResults(final BigDecimal sum, final BigDecimal average, final BigDecimal max,
@@ -143,25 +132,23 @@ final class StatisticsServiceUnitTest {
     }
 
     @Test
-    void testRemoveExpiredSuccessWithNoTransactions() {
-        statsService.removeExpired();
+    void testRemoveIfExpiredSuccessWithNoTransactions() {
+        statsService.removeIfExpired();
         assertEquals(0L, statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE).count());
     }
 
     @Test
-    void testRemoveExpiredSuccessWithSingleUnexpiredTransaction() {
+    void testRemoveIfExpiredSuccessWithSingleUnexpiredTransaction() {
         addTransactionImpl(AMOUNT, 1);
-        statsService.removeExpired();
+        statsService.removeIfExpired();
         assertEquals(1L, statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE).count());
     }
 
     @Test
-    void testRemoveExpiredSuccessWhenSingleTransactionExpires() {
-        addTransactionImpl(AMOUNT, 1);
-        Awaitility.await().until(() -> {
-            return !statsService.hasTransactions();
-        });
-        statsService.removeExpired();
+    void testRemoveIfExpiredSuccessWhenSingleTransactionExpires() {
+        statsService.add(new StatisticsTransaction(AMOUNT, TestUtils.epoch()));
+        Awaitility.await().until(() -> !statsService.hasTransactions());
+        statsService.removeIfExpired();
         assertEquals(0L, statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE).count());
     }
 
@@ -172,7 +159,7 @@ final class StatisticsServiceUnitTest {
      */
     private void addTransactionImpl(final BigDecimal amount, final int count) {
         assert count > 0;
-        for (var i = 0; i < count; i++)
-            statsService.add(new StatisticsTransaction(amount, System.currentTimeMillis()));
+        for (int i = 0; i < count; i++)
+            statsService.add(new StatisticsTransaction(amount, TestUtils.epoch() + EXPIRY_INTERVAL.toSeconds()));
     }
 }

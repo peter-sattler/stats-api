@@ -1,7 +1,8 @@
 # Spring Boot Real-time Statistics REST API
 
 I first worked on this simple REST API back in July 2018. It was one of the first stand-alone projects that I uploaded to GitHub. I 
-recently updated it to Java 17 and cleaned-up some of the underlying implementation details.
+updated it to Java 17 and cleaned-up some of the underlying implementation details in March 2022. I continue to enhance it for the 
+latest Java LTS releases going forward.
 
 ## Getting Started
 
@@ -21,9 +22,9 @@ cd stats-api
 ./mvnw spring-boot:run
 ```
 
-You can then point your browser to the [Swagger UI](http://localhost:8080/swagger-ui/) to interact with the API:
+You can then point your browser to the [Swagger UI](http://localhost:8080/swagger-ui/index.html) to interact with the API:
 
-<img src="/images/stats-api-swagger-ui.png" alt="Swagger UI Image">
+<img src="/images/stats-api-swagger-ui-v1.1.1.png" alt="Swagger UI Image">
 
 ## Specifications
  
@@ -46,13 +47,12 @@ the statistics based on the transactions in the last 60 seconds.
  Where:
  
  * _amount_ - is a double specifying the transaction amount
- * _timestamp_ - is a long specifying the transaction time in milliseconds from the epoch (UTC time zone). It is not the current
-               timestamp.
+ * _timestamp_ - is a long specifying the transaction time in seconds from the UNIX epoch. It is not the current timestamp.
 
  Returns an empty body with either:
  
  * 201 - in case of success
- * 204 - if transaction is older than 60 seconds
+ * 409 - if transaction is older than 60 seconds
 
  ### GET /statistics
  
@@ -96,5 +96,5 @@ Other requirements, which are obvious, but also listed here explicitly:
 
 
 Pete Sattler  
-March 2022  
+May 2025  
 _peter@sattler22.net_

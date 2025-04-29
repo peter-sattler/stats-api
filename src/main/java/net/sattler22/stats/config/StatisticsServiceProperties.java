@@ -1,15 +1,16 @@
-package net.sattler22.stats.service;
+package net.sattler22.stats.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
+
+import java.time.Duration;
 
 /**
  * Real-Time Statistics Service Properties
  *
  * @author Pete Sattler
  * @version March 2022
+ * @version May 2025
  */
 @ConfigurationProperties(prefix = "stats-api.service")
-@ConstructorBinding
-record StatisticsServiceProperties(int expiryIntervalSecs, int expiryCleanUpIntervalSecs) {
+public record StatisticsServiceProperties(Duration expiryInterval, Duration expiryCleanUpInterval) {
 }
