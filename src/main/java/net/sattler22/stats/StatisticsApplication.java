@@ -46,7 +46,7 @@ public class StatisticsApplication {
             logger.info("-------- MEMORY INFO --------");
             logger.info("Free memory: {} MB", numberFormat.format(freeMemory / mb));
             logger.info("Allocated memory: {} MB", numberFormat.format(allocatedMemory / mb));
-            logger.info("Max memory: {} MB", numberFormat.format(maxMemory / mb));
+            logger.info("Maximum memory: {} MB", numberFormat.format(maxMemory / mb));
             logger.info("Total free memory: {} MB", numberFormat.format((freeMemory + (maxMemory - allocatedMemory)) / mb));
             logger.info("-----------------------------");
         }

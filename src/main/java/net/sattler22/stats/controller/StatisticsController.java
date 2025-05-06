@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * @version May 2025
  */
 @RestController
-@RequestMapping("/stats-api/v1")
+@RequestMapping("/stats-api/v2")
 @Validated
 public class StatisticsController {
 

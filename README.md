@@ -24,7 +24,7 @@ cd stats-api
 
 You can then point your browser to the [Swagger UI](http://localhost:8080/swagger-ui/index.html) to interact with the API:
 
-<img src="/images/stats-api-swagger-ui-v1.1.1.png" alt="Swagger UI Image">
+<img src="/images/stats-api-swagger-ui-v2.0.0.png" alt="Swagger UI Image">
 
 ## Specifications
  
@@ -96,5 +96,7 @@ Other requirements, which are obvious, but also listed here explicitly:
 
 
 Pete Sattler  
-May 2025  
+July 2018 (v1.0.0)   
+March 2022 (v1.1.0)  
+May 2025 (v2.0.0)  
 _peter@sattler22.net_

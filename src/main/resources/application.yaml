@@ -24,7 +24,7 @@ springdoc:
             controller-package: net.sattler22.stats.controller
         info:
             title: Spring Boot Real-time Statistics REST API
-            description: Collects real-time statistics for transactions that took place in the last ${stats-api.service.expiry-interval-secs} seconds
+            description: Collects real-time statistics for transactions that took place in the last ${stats-api.service.expiry-interval} seconds
             license: Mozilla Public License 2.0
             licenseUrl: https://mozilla.org/MPL/2.0
             version: "@project.version@"
