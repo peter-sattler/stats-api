@@ -79,7 +79,7 @@ Where:
 * _min_ is a double specifying single lowest transaction value in the last 60 seconds
 * _count_ is a long specifying the total number of transactions happened in the last 60 seconds
 
-### Other Considerations:
+### Other Considerations
 
 For the REST API, the biggest and maybe hardest requirement is to make the __GET /statistics__ execute in constant time 
 and space. The best solution would be O(1). It is highly recommended to tackle the O(1) requirement as the last thing 
@@ -94,9 +94,11 @@ Other requirements, which are obvious, but also listed here explicitly:
 * Make sure to send the case in memory solution without database (including in-memory database).  
 * End-points have to execute in constant time and memory (O(1)).  
 
+### Version History
+* July 2018 (v1.0.0)   
+* March 2022 (v1.1.0)
+* May 2025 (v2.0.0)
 
 Pete Sattler  
-July 2018 (v1.0.0)   
-March 2022 (v1.1.0)  
-May 2025 (v2.0.0)  
-_peter@sattler22.net_
+May 2025  
+_peter@sattler22.net_  

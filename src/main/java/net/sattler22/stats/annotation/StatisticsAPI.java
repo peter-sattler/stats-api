@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * Real-Time Statistics API Marker Annotation
  *
  * @author Pete Sattler
- * @version May 2025
+ * @since May 2025
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE, ElementType.METHOD })

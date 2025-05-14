@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * Real-Time Statistics API Swagger Properties
  *
  * @author Pete Sattler
- * @version May 2025
+ * @since May 2025
  */
 @ConfigurationProperties(prefix = "springdoc.swagger-ui")
 public record SwaggerProperties(Api api, Info info) {

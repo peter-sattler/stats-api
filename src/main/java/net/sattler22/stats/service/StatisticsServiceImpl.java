@@ -22,8 +22,7 @@ import static java.math.BigDecimal.ZERO;
  * Real-Time Statistics Service Implementation
  *
  * @author Pete Sattler
- * @version July 2018
- * @version March 2022
+ * @since July 2018
  * @version May 2025
  */
 @Immutable

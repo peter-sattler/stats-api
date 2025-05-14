@@ -6,7 +6,7 @@ import java.io.Serial;
  * Real-Time Statistics Expiration Exception
  *
  * @author Pete Sattler
- * @version May 2025
+ * @since May 2025
  */
 public final class ExpirationException extends IllegalStateException {
 

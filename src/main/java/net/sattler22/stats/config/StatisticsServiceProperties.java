@@ -8,7 +8,7 @@ import java.time.Duration;
  * Real-Time Statistics Service Properties
  *
  * @author Pete Sattler
- * @version March 2022
+ * @since March 2022
  * @version May 2025
  */
 @ConfigurationProperties(prefix = "stats-api.service")

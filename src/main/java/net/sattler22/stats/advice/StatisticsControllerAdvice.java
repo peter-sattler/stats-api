@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  * Real-Time Statistics REST Controller Exception Aspect
  *
  * @author Pete Sattler
- * @version March 2022
+ * @since March 2022
  * @version May 2025
  */
 @RestControllerAdvice

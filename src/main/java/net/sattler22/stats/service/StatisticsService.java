@@ -14,8 +14,7 @@ import java.util.UUID;
  * Real-Time Statistics Service
  *
  * @author Pete Sattler
- * @version July 2018
- * @version March 2022
+ * @since July 2018
  * @version May 2025
  */
 public sealed interface StatisticsService permits StatisticsServiceImpl {

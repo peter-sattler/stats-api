@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  *
  * @implSpec This class is not designed to be extended, but could not be made final due to Spring's use of the proxy pattern
  * @author Pete Sattler
- * @version March 2022
+ * @since March 2022
  * @version May 2025
  */
 @Configuration
