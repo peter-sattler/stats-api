@@ -4,7 +4,7 @@ package net.sattler22.stats.util;
  * Real-Time Statistics Testing Utilities
  *
  * @author Pete Sattler
- * @version May 2025
+ * @since May 2025
  */
 public final class TestUtils {
 

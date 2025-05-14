@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Real-Time Statistics Transaction Unit Test Harness
  *
  * @author Pete Sattler
- * @version March 2022
+ * @since March 2022
  * @version May 2025
  */
 final class StatisticsTransactionUnitTest {

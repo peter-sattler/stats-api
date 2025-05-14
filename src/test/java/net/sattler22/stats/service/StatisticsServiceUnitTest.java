@@ -20,8 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Real-Time Statistics Service Unit Test Harness
  *
  * @author Pete Sattler
- * @version July 2018
- * @version March 2022
+ * @since July 2018
  * @version May 2025
  */
 final class StatisticsServiceUnitTest {
