@@ -1,7 +1,5 @@
 package net.sattler22.stats.service;
 
-import jakarta.validation.constraints.NotNull;
-import net.jcip.annotations.Immutable;
 import net.sattler22.stats.exception.ExpirationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +23,6 @@ import static java.math.BigDecimal.ZERO;
  * @since July 2018
  * @version May 2025
  */
-@Immutable
 public final class StatisticsServiceImpl implements StatisticsService {
 
     private static final Logger logger = LoggerFactory.getLogger(StatisticsServiceImpl.class);
@@ -43,7 +40,9 @@ public final class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public void add(@NotNull StatisticsTransaction transaction) {
+    public void add(StatisticsTransaction transaction) {
+        if (transaction == null)
+            throw new NullPointerException("Transaction is required");
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         try {
@@ -110,7 +109,7 @@ public final class StatisticsServiceImpl implements StatisticsService {
         stopWatch.start();
         try {
             final int count = transactions.size();
-            if (transactions.removeIf(x -> x.isExpired(expiryIntervalSecs))) {
+            if (transactions.removeIf(transaction -> transaction.isExpired(expiryIntervalSecs))) {
                 stopWatch.stop();
                 logger.info("Removed [{}] expired transaction{}, elapsed time: {} ns",
                         count - transactions.size(), count - transactions.size() == 1 ? "" : "s", stopWatch.getTotalTimeNanos());

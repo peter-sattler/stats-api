@@ -64,7 +64,8 @@ public sealed interface StatisticsService permits StatisticsServiceImpl {
          * @param timestamp The real-time transaction time in seconds from the UNIX epoch
          */
         @JsonCreator
-        public StatisticsTransaction(@JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") long timestamp) {
+        public StatisticsTransaction(@JsonProperty("amount") BigDecimal amount,
+                                     @JsonProperty("timestamp") long timestamp) {
             this.id = UUID.randomUUID().toString();
             this.amount = Objects.requireNonNull(amount, "Amount is required");
             this.timestamp = timestamp;

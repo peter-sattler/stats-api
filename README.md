@@ -1,8 +1,7 @@
 # Spring Boot Real-time Statistics REST API
 
-I first worked on this simple REST API back in July 2018. It was one of the first stand-alone projects that I uploaded to GitHub. I 
-updated it to Java 17 and cleaned-up some of the underlying implementation details in March 2022. I continue to enhance it for the 
-latest Java LTS releases going forward.
+I first worked on this simple REST API back in July 2018. It was one of the first stand-alone projects that I uploaded 
+to GitHub.
 
 ## Getting Started
 
@@ -95,9 +94,9 @@ Other requirements, which are obvious, but also listed here explicitly:
 * End-points have to execute in constant time and memory (O(1)).  
 
 ### Version History
-* July 2018 (v1.0.0)   
-* March 2022 (v1.1.0)
-* May 2025 (v2.0.0)
+* July 2018 (v1.0.0) - Initial release (Gradle)  
+* March 2022 (v1.1.0) - Upgraded to Java 17 (Maven)  
+* May 2025 (v2.0.0) - Upgraded to Java 24  
 
 Pete Sattler  
 May 2025  
