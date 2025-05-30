@@ -1,9 +1,6 @@
 spring:
     application:
         name: stats-api
-    mvc:
-        pathmatch:
-            matching-strategy: ANT_PATH_MATCHER
     profiles:
         active: local
 server:
