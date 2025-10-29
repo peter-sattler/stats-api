@@ -13,8 +13,13 @@ import java.math.RoundingMode;
 import java.time.Duration;
 import java.util.Arrays;
 
-import static java.math.BigDecimal.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static java.math.BigDecimal.ONE;
+import static java.math.BigDecimal.TEN;
+import static java.math.BigDecimal.ZERO;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Real-Time Statistics Service Unit Test Harness
