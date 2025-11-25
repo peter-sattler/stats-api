@@ -1,7 +1,6 @@
-package net.sattler22.stats.service;
+package net.sattler22.stats.dto;
 
-import net.sattler22.stats.service.StatisticsService.StatisticsTransaction;
-import net.sattler22.stats.util.TestUtils;
+import net.sattler22.stats.test.util.TestUtils;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -13,13 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Real-Time Statistics Transaction Unit Test Harness
+ * Real-Time Statistics Transaction Unit Tests
  *
  * @author Pete Sattler
  * @since March 2022
- * @version May 2025
+ * @version November 2025
  */
-final class StatisticsTransactionUnitTest {
+final class StatisticsTransactionTest {
 
     private static final BigDecimal AMOUNT = BigDecimal.ONE;
     private static final long EXPIRY_INTERVAL_SECS = 60;

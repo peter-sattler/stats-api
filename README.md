@@ -74,8 +74,8 @@ Where:
 
 * _sum_ is a double specifying the total sum of transaction value in the last 60 seconds
 * _avg_ is a double specifying the average amount of transaction value in the last 60 seconds
-* _max_ is a double specifying single highest transaction value in the last 60 seconds
-* _min_ is a double specifying single lowest transaction value in the last 60 seconds
+* _max_ is a double specifying the single highest transaction value in the last 60 seconds
+* _min_ is a double specifying the single lowest transaction value in the last 60 seconds
 * _count_ is a long specifying the total number of transactions happened in the last 60 seconds
 
 ### Other Considerations
@@ -89,7 +89,8 @@ Other requirements, which are obvious, but also listed here explicitly:
 * The API has to be thread-safe with concurrent requests.  
 * The API has to function properly, with proper results.  
 * The project should be buildable, and tests should also complete successfully.  
-* The API should be able to deal with time discrepancy, which means, at any point of time, we could receive a transaction which have a timestamp of the past.  
+* The API should be able to deal with time discrepancy, which means, at any point of time, we could receive a 
+transaction which have a timestamp of the past.  
 * Make sure to send the case in memory solution without database (including in-memory database).  
 * End-points have to execute in constant time and memory (O(1)).  
 
@@ -97,7 +98,10 @@ Other requirements, which are obvious, but also listed here explicitly:
 * July 2018 (v1.0.0) - Initial release (Gradle)  
 * March 2022 (v1.1.0) - Upgraded to Java 17 (Maven)  
 * May 2025 (v2.0.0) - Upgraded to Java 24  
+* November 2025 (v2.0.1) - Upgraded to Spring Boot 4  
+  * [SpringDoc doesn't work well with Spring Boot 4](https://github.com/springdoc/springdoc-openapi/issues/3157), so 
+  new API versioning was not added
 
 Pete Sattler  
-May 2025  
+November 2025  
 _peter@sattler22.net_  

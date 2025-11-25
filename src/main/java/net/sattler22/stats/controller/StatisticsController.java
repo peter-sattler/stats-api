@@ -5,9 +5,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.ValidationException;
 import net.sattler22.stats.annotation.StatisticsAPI;
+import net.sattler22.stats.dto.StatisticsQueryResult;
+import net.sattler22.stats.dto.StatisticsTransaction;
 import net.sattler22.stats.service.StatisticsService;
-import net.sattler22.stats.service.StatisticsService.StatisticsQueryResult;
-import net.sattler22.stats.service.StatisticsService.StatisticsTransaction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
  * @implSpec This class is not designed to be extended, but could not be made final due to Spring's use of the proxy pattern
  * @author Pete Sattler
  * @since July 2018
- * @version May 2025
+ * @version November 2025
  */
 @RestController
 @RequestMapping("/stats-api/v2")

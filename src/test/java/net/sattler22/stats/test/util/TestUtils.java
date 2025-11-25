@@ -1,4 +1,4 @@
-package net.sattler22.stats.util;
+package net.sattler22.stats.test.util;
 
 /**
  * Real-Time Statistics Testing Utilities

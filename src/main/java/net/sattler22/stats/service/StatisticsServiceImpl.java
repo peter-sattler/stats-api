@@ -1,5 +1,7 @@
 package net.sattler22.stats.service;
 
+import net.sattler22.stats.dto.StatisticsQueryResult;
+import net.sattler22.stats.dto.StatisticsTransaction;
 import net.sattler22.stats.exception.ExpirationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +62,7 @@ public final class StatisticsServiceImpl implements StatisticsService {
 
     @Override
     public boolean hasTransactions() {
-        for (final StatisticsService.StatisticsTransaction transaction : transactions)
+        for (final StatisticsTransaction transaction : transactions)
             if (!transaction.isExpired(expiryIntervalSecs))
                 return true;
         return false;
@@ -72,12 +74,12 @@ public final class StatisticsServiceImpl implements StatisticsService {
         stopWatch.start();
         try {
             //Grab an array snapshot that can be accessed in constant time:
-            final StatisticsService.StatisticsTransaction[] snapshot = transactions.toArray(new StatisticsTransaction[0]);
+            final StatisticsTransaction[] snapshot = transactions.toArray(new StatisticsTransaction[0]);
             BigDecimal sum = ZERO;
             BigDecimal max = ZERO;
             BigDecimal min = null;
             long count = 0L;
-            for (final StatisticsService.StatisticsTransaction transaction : snapshot)
+            for (final StatisticsTransaction transaction : snapshot)
                 if (!transaction.isExpired(expiryIntervalSecs)) {
                     sum = sum.add(transaction.amount());
                     if (transaction.amount().compareTo(max) > 0)

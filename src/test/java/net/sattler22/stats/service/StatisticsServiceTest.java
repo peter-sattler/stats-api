@@ -1,9 +1,9 @@
 package net.sattler22.stats.service;
 
+import net.sattler22.stats.dto.StatisticsQueryResult;
+import net.sattler22.stats.dto.StatisticsTransaction;
 import net.sattler22.stats.exception.ExpirationException;
-import net.sattler22.stats.service.StatisticsService.StatisticsQueryResult;
-import net.sattler22.stats.service.StatisticsService.StatisticsTransaction;
-import net.sattler22.stats.util.TestUtils;
+import net.sattler22.stats.test.util.TestUtils;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,13 +22,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Real-Time Statistics Service Unit Test Harness
+ * Real-Time Statistics Service Unit Tests
  *
  * @author Pete Sattler
  * @since July 2018
- * @version May 2025
+ * @version November 2025
  */
-final class StatisticsServiceUnitTest {
+final class StatisticsServiceTest {
 
     private static final BigDecimal AMOUNT = BigDecimal.TEN;
     private static final int CALC_SCALE = 9;
@@ -78,14 +78,14 @@ final class StatisticsServiceUnitTest {
 
     @Test
     void testCollectSuccessWithNoTransactions() {
-        final StatisticsService.StatisticsQueryResult queryResult = statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE);
+        final StatisticsQueryResult queryResult = statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE);
         assertSuccessQueryResults(ZERO, ZERO, ZERO, ZERO, 0L, queryResult);
     }
 
     @Test
     void testCollectSuccessWithSingleTransaction() {
         addTransactionImpl(AMOUNT, 1);
-        final StatisticsService.StatisticsQueryResult queryResult = statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE);
+        final StatisticsQueryResult queryResult = statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE);
         assertSuccessQueryResults(TEN, TEN, TEN, TEN, 1L, queryResult);
     }
 
@@ -97,7 +97,7 @@ final class StatisticsServiceUnitTest {
         Arrays.stream(transactionAmounts)
               .map(amount -> new StatisticsTransaction(new BigDecimal(amount), TestUtils.epoch()))
               .forEach(transaction -> statsService.add(transaction));
-        final StatisticsService.StatisticsQueryResult queryResult = statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE);
+        final StatisticsQueryResult queryResult = statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE);
         assertSuccessQueryResults(expectedSum, expectedAverage, TEN, ZERO, transactionAmounts.length, queryResult);
     }
 
@@ -115,7 +115,7 @@ final class StatisticsServiceUnitTest {
             amount = amount.add(incrementAmount);
             statsService.add(new StatisticsTransaction(amount, TestUtils.epoch()));
         }
-        final StatisticsService.StatisticsQueryResult queryResult = statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE);
+        final StatisticsQueryResult queryResult = statsService.collect(CALC_SCALE, CALC_ROUNDING_MODE);
         assertSuccessQueryResults(expectedSum, expectedAverage, expectedMax, expectedMin, expectedCount, queryResult);
     }
 

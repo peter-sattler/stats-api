@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  *
  * @author Pete Sattler
  * @since March 2022
- * @version May 2025
+ * @version November 2025
  */
 @RestControllerAdvice
 public final class StatisticsControllerAdvice extends ResponseEntityExceptionHandler {
@@ -35,7 +35,7 @@ public final class StatisticsControllerAdvice extends ResponseEntityExceptionHan
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<Object> handleValidationException(ValidationException exception, WebRequest webRequest) {
-        return handleExceptionImpl(exception, HttpStatus.UNPROCESSABLE_ENTITY, webRequest);
+        return handleExceptionImpl(exception, HttpStatus.UNPROCESSABLE_CONTENT, webRequest);
     }
 
     @ExceptionHandler(Exception.class)
