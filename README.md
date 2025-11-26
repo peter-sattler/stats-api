@@ -100,7 +100,7 @@ transaction which have a timestamp of the past.
 * May 2025 (v2.0.0) - Upgraded to Java 24  
 * November 2025 (v2.0.1) - Upgraded to Spring Boot 4  
   * [SpringDoc doesn't work well with Spring Boot 4](https://github.com/springdoc/springdoc-openapi/issues/3157), so 
-  new API versioning was not added
+  new API versioning feature was not added
 
 Pete Sattler  
 November 2025  
